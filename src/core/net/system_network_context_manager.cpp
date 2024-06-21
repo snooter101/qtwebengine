@@ -63,7 +63,13 @@ network::mojom::HttpAuthDynamicParamsPtr CreateHttpAuthDynamicParams()
     auth_dynamic_params->server_allowlist = command_line->GetSwitchValueASCII(switches::kAuthServerAllowlist);
 //    auth_dynamic_params->delegate_allowlist = command_line->GetSwitchValueASCII(switches::kAuthNegotiateDelegateWhitelist);
 //    auth_dynamic_params->enable_negotiate_port = command_line->HasSwitch(switches::kEnableAuthNegotiatePort);
-
+	
+    // PETROSYS CHANGE
+    // we need to allow pass through of AuthNegotiateDelegateAllowlist in the same way as AuthServerAllowlist, but
+    // there is no switch in Chromium for that (removed a long time ago, presumably that's why the line above is
+    // commented out). We magic up our own name for it
+    auth_dynamic_params->delegate_allowlist = command_line->GetSwitchValueASCII("auth-negotiate-delegate-allowlist");
+	
     return auth_dynamic_params;
 }
 
